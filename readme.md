@@ -18,10 +18,12 @@
 #### Config:
 * `$ touch .babelrc` on the root dir of the project to create the Babel config file
 * Paste the following config on `.babelrc`: 
-    ```javascript {
+    ```javascript 
+    {
         "presets": [
             "env"
         ]
+    }
     ```
 #### To Run Babel:
 * Create script on `package.json` to run `Babel` on the app's entry point:
