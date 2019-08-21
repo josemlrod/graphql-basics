@@ -1,5 +1,7 @@
 import { GraphQLServer, } from 'graphql-yoga';
 
+// Scalar types - String, Boolean, Int, Float, ID
+
 // Type Definitions - App Schema
 const typeDefs = `
     type Query {
