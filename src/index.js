@@ -2,12 +2,16 @@ import { GraphQLServer, } from 'graphql-yoga';
 
 // Scalar types - String, Boolean, Int, Float, ID
 
+const usersArr = [{
+    id: 1,
+    name: 'userx1',
+    email: 'user1@email.com'
+}, { id: 2, name: 'userzz2', email: 'user2@email.com', age: 23 }];
+
 // Type Definitions - App Schema
 const typeDefs = `
     type Query {
-        greeting(name: String): String!
-        add(numbers: [Float!]!): Float!
-        grades: [Int!]!
+        users(query: String): [User!]!
         me: User!
         post: Post!
     }
@@ -31,25 +35,14 @@ const typeDefs = `
 const resolvers = {
     // resolvers arguments: parent, args, ctx, info
     Query: {
-        greeting(parent, args, ctx, info) {
-            if (args.name) {
-                return `Hello, ${args.name}`;
-            } else {
-                return `Hello!`;
+        users(parent, args, ctx, info) {
+            const { query, } = args;
+            if (!query) {
+                return usersArr;
             };
-        },
-        add(parent, args, ctx, info) {
-            const { numbers, } = args;
-            if (!numbers.length) {
-                return 0;
-            } else {
-                return numbers.reduce((acc, e) => {
-                    return acc += e;
-                }, 0);
-            };
-        },
-        grades(parent, args, ctx, info) {
-            return [99, 80, 93];
+            return usersArr.filter(user => {
+                return user.name.toLowerCase().includes(query.toLowerCase());
+            });
         },
         me() {
             return {
