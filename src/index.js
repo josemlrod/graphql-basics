@@ -8,12 +8,19 @@ const usersArr = [{
     email: 'user1@email.com'
 }, { id: 2, name: 'userzz2', email: 'user2@email.com', age: 23 }];
 
+const userPosts = [{
+    id: 1, 
+    title: 'firstPost',
+    body: 'firstPosts body',
+    published: true,
+}, { id: 2, title: 'secondPost', body: 'secondPosts body', published: true, }];
+
 // Type Definitions - App Schema
 const typeDefs = `
     type Query {
         users(query: String): [User!]!
+        posts(query: String): [Post!]!
         me: User!
-        post: Post!
     }
 
     type User {
@@ -44,20 +51,22 @@ const resolvers = {
                 return user.name.toLowerCase().includes(query.toLowerCase());
             });
         },
+        posts(parent, args, ctx, info) {
+            const { query, } = args;
+            if (!query) {
+                return userPosts;
+            } else {
+                return userPosts.filter(post => {
+                    return post.title.toLowerCase().includes(query.toLowerCase());
+                });
+            };
+        },
         me() {
             return {
                 id: 123098,
                 name: 'J',
                 email: 'some email',
                 age: 23
-            };
-        },
-        post() {
-            return {
-                id: 1111,
-                title: 'Some Post',
-                body: 'Some posts body',
-                published: false,
             };
         },
     },
