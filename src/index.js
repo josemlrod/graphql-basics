@@ -61,14 +61,6 @@ const resolvers = {
                 });
             };
         },
-        me() {
-            return {
-                id: 123098,
-                name: 'J',
-                email: 'some email',
-                age: 23
-            };
-        },
     },
 };
 
