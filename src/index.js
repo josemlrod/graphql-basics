@@ -4,23 +4,29 @@ import { GraphQLServer, } from 'graphql-yoga';
 
 const usersArr = [{
     id: 1,
-    name: 'userx1',
+    name: 'user1',
     email: 'user1@email.com'
-}, { id: 2, name: 'userzz2', email: 'user2@email.com', age: 23 }];
+}, { id: 2, name: 'user2', email: 'user2@email.com', age: 23 }];
 
 const userPosts = [{
     id: 1, 
     title: 'firstPost',
     body: 'firstPosts body',
     published: true,
-}, { id: 2, title: 'secondPost', body: 'secondPosts body', published: true, }];
+    author: 1
+}, { id: 2, title: 'secondPost', body: 'secondPosts body', published: true, author: 2, }, {
+    id: 3,
+    title: 'thirdPost',
+    body: 'thirdPosts body',
+    published: true,
+    author: 1,
+}];
 
 // Type Definitions - App Schema
 const typeDefs = `
     type Query {
         users(query: String): [User!]!
         posts(query: String): [Post!]!
-        me: User!
     }
 
     type User {
@@ -28,6 +34,7 @@ const typeDefs = `
         name: String!
         email: String!
         age: Int
+        posts: [Post!]!
     }
 
     type Post {
@@ -35,6 +42,7 @@ const typeDefs = `
         title: String!
         body: String!
         published: Boolean!
+        author: User!
     }
 `;
 
@@ -60,6 +68,20 @@ const resolvers = {
                     return post.title.toLowerCase().includes(query.toLowerCase());
                 });
             };
+        },
+    },
+    Post: {
+        author(parent, args, ctx, info) {
+            return usersArr.find(user => {
+                return user.id === parent.author;
+            });
+        },
+    },
+    User: {
+        posts(parent, args, ctx, info) {
+            return userPosts.filter(post => {
+                return post.author === parent.id;
+            });
         },
     },
 };
