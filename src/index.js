@@ -1,4 +1,5 @@
 import { GraphQLServer, } from 'graphql-yoga';
+import uuidv4 from 'uuid/v4';
 
 // Scalar types - String, Boolean, Int, Float, ID
 
@@ -35,6 +36,10 @@ const typeDefs = `
         users(query: String): [User!]!
         posts(query: String): [Post!]!
         comments(query: String): [Comment!]!
+    }
+
+    type Mutation {
+        createUser(name: String!, email: String!, age: Int): User!
     }
 
     type User {
@@ -93,6 +98,23 @@ const resolvers = {
                 return comments.filter(comment => {
                     return comment.text.toLowerCase().includes(query.toLowerCase());
                 });
+            };
+        },
+    },
+    Mutation: {
+        createUser(parent, args, ctx, info) {
+            const { name, email, age, } = args;
+            const emailTaken = usersArr.some(user => user.email === email);
+            if (emailTaken) throw new Error('Email is already in use.');
+            else {
+                const user = {
+                    id: uuidv4(),
+                    name, 
+                    email,
+                    age,
+                };
+                usersArr.push(user);
+                return user;
             };
         },
     },
