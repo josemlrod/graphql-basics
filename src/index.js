@@ -4,31 +4,31 @@ import uuidv4 from 'uuid/v4';
 // Scalar types - String, Boolean, Int, Float, ID
 
 const usersArr = [{
-    id: 1,
+    id: "1",
     name: 'user1',
     email: 'user1@email.com'
-}, { id: 2, name: 'user2', email: 'user2@email.com', age: 23 }];
+}, { id: "2", name: 'user2', email: 'user2@email.com', age: 23 },];
 
 const userPosts = [{
-    id: 1, 
+    id: "1", 
     title: 'firstPost',
     body: 'firstPosts body',
     published: true,
-    author: 1
-}, { id: 2, title: 'secondPost', body: 'secondPosts body', published: true, author: 2, }, {
-    id: 3,
+    author: "1"
+}, { id: "2", title: 'secondPost', body: 'secondPosts body', published: true, author: "2", }, {
+    id: "3",
     title: 'thirdPost',
     body: 'thirdPosts body',
     published: true,
-    author: 1,
-}];
+    author: "1",
+},];
 
 const comments = [{
-    id: 1,
+    id: "1",
     text: 'firstComment',
-    author: 1,
-    post: 1,
-}, { id: 2, text: 'secondComment', author: 1, post: 3, }, { id: 3, text: 'thirdComment', author: 1, post: 3, }];
+    author: "1",
+    post: "1",
+}, { id: "2", text: 'secondComment', author: "1", post: "3", }, { id: "3", text: 'thirdComment', author: "1", post: "3", },];
 
 // Type Definitions - App Schema
 const typeDefs = `
@@ -41,6 +41,7 @@ const typeDefs = `
     type Mutation {
         createUser(name: String!, email: String!, age: Int): User!
         createPost(title: String!, body: String!, published: Boolean!, author: ID!): Post!
+        createComment(text: String!, author: ID!, post: ID!): Comment!
     }
 
     type User {
@@ -132,6 +133,21 @@ const resolvers = {
                 };
                 userPosts.push(post);
                 return post;
+            };
+        },
+        createComment(parent, args, ctx, info) {
+            const userExists = usersArr.some(user => user.id === args.author);
+            const postExists = userPosts.some(post => post.id === args.post && post.published);
+            if (!userExists || !postExists) throw new Error('User/Post does not exist.');
+            else {
+                const comment = {
+                    id: uuidv4(),
+                    text: args.text, 
+                    author: args.author, 
+                    post: args.post,
+                };
+                comments.push(comment);
+                return comment;
             };
         },
     },
