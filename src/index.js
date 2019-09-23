@@ -105,15 +105,13 @@ const resolvers = {
     },
     Mutation: {
         createUser(parent, args, ctx, info) {
-            const { name, email, age, } = args;
+            // const { name, email, age, } = args;
             const emailTaken = usersArr.some(user => user.email === email);
             if (emailTaken) throw new Error('Email is already in use.');
             else {
                 const user = {
                     id: uuidv4(),
-                    name, 
-                    email,
-                    age,
+                    ...args,
                 };
                 usersArr.push(user);
                 return user;
@@ -126,10 +124,7 @@ const resolvers = {
             else {
                 const post = {
                     id: uuidv4(),
-                    title,
-                    body,
-                    published,
-                    author,
+                    ...args,
                 };
                 userPosts.push(post);
                 return post;
@@ -142,9 +137,7 @@ const resolvers = {
             else {
                 const comment = {
                     id: uuidv4(),
-                    text: args.text, 
-                    author: args.author, 
-                    post: args.post,
+                    ...args,
                 };
                 comments.push(comment);
                 return comment;
