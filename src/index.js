@@ -44,6 +44,7 @@ const typeDefs = `
         createPost(data: createPostInput!): Post!
         deletePost(id: ID!): Post!
         createComment(data: createCommentInput!): Comment!
+        deleteComment(id: ID!): Comment!
     }
 
     input createUserInput {
@@ -167,13 +168,12 @@ const resolvers = {
         },
         deletePost(parent, args, ctx, info) {
             const postIdx = userPosts.findIndex(post => post.id === args.id);
-            if (postIdx === -1) {
-                throw new Error('Couldnt find post.');
-            } else {
-                const deletedPost = userPosts.splice(postIdx, 1);
+            if (postIdx === -1) throw new Error('Couldnt find post.');
+            else {
+                const deletedPosts = userPosts.splice(postIdx, 1);
                 comments = comments.filter(comment => comment.post !== args.id);
-                return deletedPost[0];
-            }
+                return deletedPosts[0];
+            };
         },
         createComment(parent, args, ctx, info) {
             const userExists = usersArr.some(user => user.id === args.data.author);
@@ -186,6 +186,14 @@ const resolvers = {
                 };
                 comments.push(comment);
                 return comment;
+            };
+        },
+        deleteComment(parent, args, ctx, info) {
+            const commentIdx = comments.findIndex(comment => comment.id === args.id);
+            if (commentIdx === -1) throw new Error('Couldnt find comment');
+            else {
+                const deletedComments = comments.splice(commentIdx, 1);
+                return deletedComments[0];
             };
         },
     },
