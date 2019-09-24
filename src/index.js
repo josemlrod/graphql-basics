@@ -9,7 +9,7 @@ const usersArr = [{
     email: 'user1@email.com'
 }, { id: "2", name: 'user2', email: 'user2@email.com', age: 23 },];
 
-const userPosts = [{
+let userPosts = [{
     id: "1", 
     title: 'firstPost',
     body: 'firstPosts body',
@@ -23,7 +23,7 @@ const userPosts = [{
     author: "1",
 },];
 
-const comments = [{
+let comments = [{
     id: "1",
     text: 'firstComment',
     author: "1",
@@ -40,6 +40,7 @@ const typeDefs = `
 
     type Mutation {
         createUser(data: createUserInput!): User!
+        deleteUser(id: ID!): User!
         createPost(data: createPostInput!): Post!
         createComment(data: createCommentInput!): Comment!
     }
@@ -133,6 +134,21 @@ const resolvers = {
                 };
                 usersArr.push(user);
                 return user;
+            };
+        },
+        deleteUser(parent, args, ctx, info) {
+            const userIndex = usersArr.findIndex(user => user.id === args.id);
+            if (userIndex === -1) throw new Error('User not found');
+            else {
+                const deletedUsers = usersArr.splice(userIndex, 1);
+                userPosts = posts.filter(post => {
+                    const match = post.author === args.id;
+                    if (match) {
+                        comments = comments.filter(comment => comment.post !== post.id);
+                    }
+                    return !match;
+                })
+                comments = comments.filter(comment => comment.author !== args.id);
             };
         },
         createPost(parent, args, ctx, info) {
