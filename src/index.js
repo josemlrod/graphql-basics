@@ -20,7 +20,7 @@ let userPosts = [{
     title: 'thirdPost',
     body: 'thirdPosts body',
     published: true,
-    author: "1",
+    author: "2",
 },];
 
 let comments = [{
@@ -28,7 +28,7 @@ let comments = [{
     text: 'firstComment',
     author: "1",
     post: "1",
-}, { id: "2", text: 'secondComment', author: "1", post: "3", }, { id: "3", text: 'thirdComment', author: "1", post: "3", },];
+}, { id: "2", text: 'secondComment', author: "2", post: "3", }, { id: "3", text: 'thirdComment', author: "1", post: "3", },];
 
 // Type Definitions - App Schema
 const typeDefs = `
@@ -92,7 +92,7 @@ const typeDefs = `
 
 // Resolvers
 const resolvers = {
-    // resolvers arguments: parent, args, ctx, info
+    // resolvers parameters: parent, args, ctx, info
     Query: {
         users(parent, args, ctx, info) {
             const { query, } = args;
@@ -141,7 +141,7 @@ const resolvers = {
             if (userIndex === -1) throw new Error('User not found');
             else {
                 const deletedUsers = usersArr.splice(userIndex, 1);
-                userPosts = posts.filter(post => {
+                userPosts = userPosts.filter(post => {
                     const match = post.author === args.id;
                     if (match) {
                         comments = comments.filter(comment => comment.post !== post.id);
@@ -149,6 +149,7 @@ const resolvers = {
                     return !match;
                 })
                 comments = comments.filter(comment => comment.author !== args.id);
+                return deletedUsers[0];
             };
         },
         createPost(parent, args, ctx, info) {
