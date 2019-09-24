@@ -39,15 +39,28 @@ const typeDefs = `
     }
 
     type Mutation {
-        createUser(data: createUserInput): User!
-        createPost(title: String!, body: String!, published: Boolean!, author: ID!): Post!
-        createComment(text: String!, author: ID!, post: ID!): Comment!
+        createUser(data: createUserInput!): User!
+        createPost(data: createPostInput!): Post!
+        createComment(data: createCommentInput!): Comment!
     }
 
     input createUserInput {
         name: String!
         email: String!
         age: Int
+    }
+
+    input createPostInput {
+        title: String!
+        body: String!
+        published: Boolean!
+        author: ID!
+    }
+
+    input createCommentInput {
+        text: String!
+        author: ID!
+        post: ID!
     }
 
     type User {
@@ -123,25 +136,25 @@ const resolvers = {
             };
         },
         createPost(parent, args, ctx, info) {
-            const userExists = usersArr.some(user => user.id === author);
+            const userExists = usersArr.some(user => user.id === args.data.author);
             if (!userExists) throw new Error('User does not exist.');
             else {
                 const post = {
                     id: uuidv4(),
-                    ...args,
+                    ...args.data,
                 };
                 userPosts.push(post);
                 return post;
             };
         },
         createComment(parent, args, ctx, info) {
-            const userExists = usersArr.some(user => user.id === args.author);
-            const postExists = userPosts.some(post => post.id === args.post && post.published);
+            const userExists = usersArr.some(user => user.id === args.data.author);
+            const postExists = userPosts.some(post => post.id === args.data.post && post.published);
             if (!userExists || !postExists) throw new Error('User/Post does not exist.');
             else {
                 const comment = {
                     id: uuidv4(),
-                    ...args,
+                    ...args.data,
                 };
                 comments.push(comment);
                 return comment;
