@@ -1,7 +1,8 @@
 const usersArr = [{
     id: "1",
     name: 'user1',
-    email: 'user1@email.com'
+    email: 'user1@email.com',
+    age: 24,
 }, { id: "2", name: 'user2', email: 'user2@email.com', age: 23 },];
 
 const userPosts = [{
