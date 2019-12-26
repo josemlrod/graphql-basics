@@ -3,8 +3,7 @@ import db from './db';
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
 import User from './resolvers/User';
-import Post from './resolvers/Post';
-import Comment from './resolvers/Comment';
+import Prediction from './resolvers/Prediction';
 
 const server = new GraphQLServer({
     typeDefs: './src/schema.graphql',
@@ -12,11 +11,10 @@ const server = new GraphQLServer({
         Query, 
         Mutation,
         User,
-        Post,
-        Comment,
+        Prediction
     },
     context: {
-        db, 
+        db
     },
 });
 

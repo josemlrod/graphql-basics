@@ -1,19 +1,13 @@
 type Query {
     users(query: String): [User!]!
-    posts(query: String): [Post!]!
-    comments(query: String): [Comment!]!
+    predictions(query: String): [Prediction!]!
 }
 
 type Mutation {
     createUser(data: createUserInput!): User!
     deleteUser(id: ID!): User!
     updateUser(id: ID!, data: updateUserInput!): User!
-    createPost(data: createPostInput!): Post!
-    deletePost(id: ID!): Post!
-    updatePost(id: ID! data: updatePostInput!): Post!
-    createComment(data: createCommentInput!): Comment!
-    deleteComment(id: ID!): Comment!
-    updateComment(id: ID!, data: updateCommentInput!): Comment!
+    createPrediction(data: createPredictionInput!): Prediction!
 }
 
 input createUserInput {
@@ -28,27 +22,17 @@ input updateUserInput {
     age: Int
 }
 
-input createPostInput {
-    title: String!
-    body: String!
-    published: Boolean!
+input createPredictionInput {
     author: ID!
-}
-
-input updatePostInput {
-    title: String
-    body: String
-    published: Boolean
-}
-
-input createCommentInput {
-    text: String!
-    author: ID!
-    post: ID!
-}
-
-input updateCommentInput {
-    text: String
+    ballondor: String!
+    champions_league: String!
+    la_liga: String!
+    premier_league: String!
+    serie_a: String!
+    bundesliga: String!
+    ligue_1: String!
+    eurocup: String!
+    copa_america: String!
 }
 
 type User {
@@ -56,22 +40,19 @@ type User {
     name: String!
     email: String!
     age: Int
-    posts: [Post!]!
-    comments: [Comment!]!
+    predictions: [Prediction!]!
 }
 
-type Post {
+type Prediction {
     id: ID!
-    title: String!
-    body: String!
-    published: Boolean!
     author: User!
-    comments: [Comment!]!
-}
-
-type Comment {
-    id: ID!
-    text: String!
-    author: User!
-    post: Post!
+    ballondor: String!
+    champions_league: String!
+    la_liga: String!
+    premier_league: String!
+    serie_a: String!
+    bundesliga: String!
+    ligue_1: String!
+    eurocup: String!
+    copa_america: String!
 }
