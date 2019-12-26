@@ -1,0 +1,12 @@
+{
+    "projects": {
+        "rodriguez-predict-a-goal": {
+            "schemaPath": "src/generated/rodriguez-predict-a-goal.graphql",
+            "extensions": {
+                "endpoint": {
+                    "default": "localhost:4466"
+                }
+            }
+        }
+    }
+}
