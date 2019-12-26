@@ -1,6 +1,20 @@
 type User {
     id: ID! @id
     name: String!
-    email: String!
+    email: String! @unique
     age: Int
+}
+
+type Prediction {
+    id: ID! @id
+    author: User!
+    ballondor: String!
+    champions_league: String!
+    la_liga: String!
+    premier_league: String!
+    serie_a: String!
+    bundesliga: String!
+    ligue_1: String!
+    eurocup: String!
+    copa_america: String!
 }
