@@ -3,7 +3,7 @@ type User {
     name: String!
     email: String! @unique
     age: Int
-    predictions: [Prediction!]! @relation(name: "PredictionToUser", onDelete: SET_NULL, link: TABLE)
+    predictions: [Prediction!]! @relation(name: "PredictionToUser", onDelete: CASCADE, link: TABLE)
 }
 
 type Prediction {

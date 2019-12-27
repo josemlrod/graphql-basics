@@ -5,8 +5,8 @@ type Query {
 
 type Mutation {
     createUser(data: createUserInput!): User!
-    deleteUser(id: ID!): User!
-    updateUser(id: ID!, data: updateUserInput!): User!
+    deleteUser(data: UserWhereUniqueInput!): User!
+    updateUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): User!
     createPrediction(data: createPredictionInput!): Prediction!
 }
 
@@ -16,14 +16,19 @@ input createUserInput {
     age: Int
 }
 
-input updateUserInput {
+input UserUpdateInput {
     name: String
     email: String
     age: Int
 }
 
+input UserWhereUniqueInput {
+    id: ID
+    email: String
+}
+
 input createPredictionInput {
-    author: ID!
+    author: UserConnectToPrediction!
     ballondor: String!
     champions_league: String!
     la_liga: String!
@@ -33,6 +38,10 @@ input createPredictionInput {
     ligue_1: String!
     eurocup: String!
     copa_america: String!
+}
+
+input UserConnectToPrediction {
+    connect: UserWhereUniqueInput!
 }
 
 type User {

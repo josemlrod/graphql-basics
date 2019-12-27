@@ -1,52 +1,56 @@
-import uuidv4 from 'uuid/v4';
-
 const Mutation = {
-    createUser(parent, args, { db, }, info) {
-        const emailTaken = db.usersArr.some(user => user.email === args.data.email);
-        if (emailTaken) throw new Error('Email is already in use.');
-        else {
-            const user = {
-                id: uuidv4(),
-                ...args.data,
-            };
-            db.usersArr.push(user);
-            return user;
-        };
-    },
-    deleteUser(parent, args, { db, }, info) {
-        const userIndex = db.usersArr.findIndex(user => user.id === args.id);
-        if (userIndex === -1) throw new Error('User not found');
-        else {
-            const deletedUsers = db.usersArr.splice(userIndex, 1);
-            return deletedUsers[0];
-        };
-    },
-    updateUser(parent, args, { db, }, info) {
-        const { id, data, } = args;
-        const user = db.usersArr.find(user => user.id === args.id);
-        if (!user) throw new Error('User not found');
-        else {
-            if (typeof data.email === 'string') {
-                const emailTaken = db.usersArr.some(user => user.email === data.email);
-                if (emailTaken) throw new Error('Email in use.');
-            };
-            user.email = data.email;
+    async createUser(parent, args, { prisma }, info) {
+        const { data } = args;
+        const isEmailTaken = await prisma.exists.User({
+            email: data.email
+        });
 
-            if (typeof data.name === 'string') user.name = data.name;
-
-            if (typeof data.age !== 'undefined') {
-                user.age = data.age;
-            };
-            return user;
+        if (isEmailTaken) throw new Error('Email address is already in use');
+        else {
+            return prisma.mutation.createUser({ data }, info);
         };
     },
-    createPrediction(parent, args, { db }, info) {
-        const prediction = {
-            id: uuidv4(),
-            ...args.data
+    async deleteUser(parent, args, { prisma }, info) {
+        const { data } = args;
+        const doesUserExist = await prisma.exists.User({
+            email: data.email
+        });
+
+        if (!doesUserExist) throw new Error('User does not exist');
+        else {
+            const opArgs = {
+                where: {
+                    email: data.email
+                }
+            };
+    
+            return prisma.mutation.deleteUser(opArgs, info);
         };
-        db.predictions.push(prediction);
-        return prediction;
+    },
+    async updateUser(parent, args, { prisma }, info) {
+        const { where, data } = args;
+        const doesUserExist = await prisma.exists.User({
+            ...where
+        })
+
+        if (!doesUserExist) throw new Error('User not found');
+        else {
+            return prisma.mutation.updateUser({
+                data: { ...data },
+                where: { ...where }
+            }, info);
+        };
+    },
+    async createPrediction(parent, args, { prisma }, info) {
+        const { data } = args;
+        const doesUserExist = await prisma.exists.User({
+            ...data.author.connect
+        });
+
+        if (!doesUserExist) throw new Error('User not found');
+        else {
+            return prisma.mutation.createPrediction({ data }, info);
+        };
     }
 }
 
