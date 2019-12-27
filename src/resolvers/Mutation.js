@@ -13,7 +13,7 @@ const Mutation = {
     async deleteUser(parent, args, { prisma }, info) {
         const { data } = args;
         const doesUserExist = await prisma.exists.User({
-            email: data.email
+            ...data
         });
 
         if (!doesUserExist) throw new Error('User does not exist');
