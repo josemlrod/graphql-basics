@@ -1,8 +1,14 @@
 const User = {
-    predictions(parent, args, { db }, info) {
-        return db.predictions.filter(prediction => {
-            return prediction.author === parent.id;
-        });
+    predictions(parent, args, { prisma }, info) {
+        const opArgs = {
+            where: {
+                author: {
+                    id: parent.id
+                }
+            }
+        };
+
+        return prisma.query.predictions(opArgs, info);
     }
 };
 

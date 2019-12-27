@@ -1,21 +1,33 @@
 const Query = {
-    users(parent, args, { db, }, info) {
-        const { query, } = args;
-        if (!query) {
-            return db.usersArr;
+    users(parent, args, { db, prisma }, info) {
+        const opArgs = {};
+
+        if (args.query) {
+            opArgs.where = {
+                OR: [{
+                    name_contains: args.query
+                }, {
+                    email_contains: args.query
+                }]
+            };
         };
-        return db.usersArr.filter(user => {
-            return user.name.toLowerCase().includes(query.toLowerCase());
-        });
+
+        return prisma.query.users(opArgs, info);
     },
-    predictions(parent, args, { db }, info) {
-        const { query } = args;
-        if (!query) return db.predictions;
-        else {
-            return db.predictions.filter(prediction => {
-                return prediction.id.toLowerCase().includes(query.toLowerCase());
-            });
+    predictions(parent, args, { db, prisma }, info) {
+        const opArgs = {};
+
+        if (args.query) {
+            opArgs.where = {
+                OR: [{
+                    id: args.query
+                }, {
+                    ballondor: args.query
+                }]
+            }
         };
+
+        return prisma.query.predictions(opArgs, info);
     }
 };
 

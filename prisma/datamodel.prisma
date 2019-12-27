@@ -3,11 +3,12 @@ type User {
     name: String!
     email: String! @unique
     age: Int
+    predictions: [Prediction!]! @relation(name: "PredictionToUser", onDelete: SET_NULL, link: TABLE)
 }
 
 type Prediction {
     id: ID! @id
-    author: User!
+    author: User! @relation(name: "PredictionToUser", onDelete: SET_NULL)
     ballondor: String!
     champions_league: String!
     la_liga: String!
