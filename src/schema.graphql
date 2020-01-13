@@ -12,12 +12,14 @@ type Mutation {
 
 input createUserInput {
     name: String!
+    password: String!
     email: String!
     age: Int
 }
 
 input UserUpdateInput {
     name: String
+    password: String
     email: String
     age: Int
 }
@@ -47,6 +49,7 @@ input UserConnectToPrediction {
 type User {
     id: ID!
     name: String!
+    password: String!
     email: String!
     age: Int
     predictions: [Prediction!]!

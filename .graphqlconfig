@@ -3,6 +3,7 @@
         "rodriguez-predict-a-goal": {
             "schemaPath": "src/generated/rodriguez-predict-a-goal.graphql",
             "extensions": {
+                "prisma": "prisma/prisma.yml",
                 "endpoints": {
                     "default": "http://localhost:4466"
                 }

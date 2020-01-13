@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Thu Dec 26 2019 16:29:03 GMT-0500 (Eastern Standard Time)
+# timestamp: Fri Dec 27 2019 15:32:23 GMT-0500 (Eastern Standard Time)
 
 type AggregatePrediction {
   count: Int!
@@ -24,18 +24,18 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createPrediction(data: PredictionCreateInput!): Prediction!
   createUser(data: UserCreateInput!): User!
-  updatePrediction(data: PredictionUpdateInput!, where: PredictionWhereUniqueInput!): Prediction
+  createPrediction(data: PredictionCreateInput!): Prediction!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  deletePrediction(where: PredictionWhereUniqueInput!): Prediction
+  updatePrediction(data: PredictionUpdateInput!, where: PredictionWhereUniqueInput!): Prediction
   deleteUser(where: UserWhereUniqueInput!): User
-  upsertPrediction(where: PredictionWhereUniqueInput!, create: PredictionCreateInput!, update: PredictionUpdateInput!): Prediction!
+  deletePrediction(where: PredictionWhereUniqueInput!): Prediction
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  updateManyPredictions(data: PredictionUpdateManyMutationInput!, where: PredictionWhereInput): BatchPayload!
+  upsertPrediction(where: PredictionWhereUniqueInput!, create: PredictionCreateInput!, update: PredictionUpdateInput!): Prediction!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  deleteManyPredictions(where: PredictionWhereInput): BatchPayload!
+  updateManyPredictions(data: PredictionUpdateManyMutationInput!, where: PredictionWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyPredictions(where: PredictionWhereInput): BatchPayload!
   executeRaw(database: PrismaDatabase, query: String!): Json!
 }
 
@@ -101,7 +101,25 @@ input PredictionCreateInput {
   ligue_1: String!
   eurocup: String!
   copa_america: String!
-  author: UserCreateOneInput!
+  author: UserCreateOneWithoutPredictionsInput!
+}
+
+input PredictionCreateManyWithoutAuthorInput {
+  create: [PredictionCreateWithoutAuthorInput!]
+  connect: [PredictionWhereUniqueInput!]
+}
+
+input PredictionCreateWithoutAuthorInput {
+  id: ID
+  ballondor: String!
+  champions_league: String!
+  la_liga: String!
+  premier_league: String!
+  serie_a: String!
+  bundesliga: String!
+  ligue_1: String!
+  eurocup: String!
+  copa_america: String!
 }
 
 """An edge in a connection."""
@@ -147,6 +165,417 @@ type PredictionPreviousValues {
   ligue_1: String!
   eurocup: String!
   copa_america: String!
+}
+
+input PredictionScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PredictionScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PredictionScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PredictionScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  ballondor: String
+
+  """All values that are not equal to given value."""
+  ballondor_not: String
+
+  """All values that are contained in given list."""
+  ballondor_in: [String!]
+
+  """All values that are not contained in given list."""
+  ballondor_not_in: [String!]
+
+  """All values less than the given value."""
+  ballondor_lt: String
+
+  """All values less than or equal the given value."""
+  ballondor_lte: String
+
+  """All values greater than the given value."""
+  ballondor_gt: String
+
+  """All values greater than or equal the given value."""
+  ballondor_gte: String
+
+  """All values containing the given string."""
+  ballondor_contains: String
+
+  """All values not containing the given string."""
+  ballondor_not_contains: String
+
+  """All values starting with the given string."""
+  ballondor_starts_with: String
+
+  """All values not starting with the given string."""
+  ballondor_not_starts_with: String
+
+  """All values ending with the given string."""
+  ballondor_ends_with: String
+
+  """All values not ending with the given string."""
+  ballondor_not_ends_with: String
+  champions_league: String
+
+  """All values that are not equal to given value."""
+  champions_league_not: String
+
+  """All values that are contained in given list."""
+  champions_league_in: [String!]
+
+  """All values that are not contained in given list."""
+  champions_league_not_in: [String!]
+
+  """All values less than the given value."""
+  champions_league_lt: String
+
+  """All values less than or equal the given value."""
+  champions_league_lte: String
+
+  """All values greater than the given value."""
+  champions_league_gt: String
+
+  """All values greater than or equal the given value."""
+  champions_league_gte: String
+
+  """All values containing the given string."""
+  champions_league_contains: String
+
+  """All values not containing the given string."""
+  champions_league_not_contains: String
+
+  """All values starting with the given string."""
+  champions_league_starts_with: String
+
+  """All values not starting with the given string."""
+  champions_league_not_starts_with: String
+
+  """All values ending with the given string."""
+  champions_league_ends_with: String
+
+  """All values not ending with the given string."""
+  champions_league_not_ends_with: String
+  la_liga: String
+
+  """All values that are not equal to given value."""
+  la_liga_not: String
+
+  """All values that are contained in given list."""
+  la_liga_in: [String!]
+
+  """All values that are not contained in given list."""
+  la_liga_not_in: [String!]
+
+  """All values less than the given value."""
+  la_liga_lt: String
+
+  """All values less than or equal the given value."""
+  la_liga_lte: String
+
+  """All values greater than the given value."""
+  la_liga_gt: String
+
+  """All values greater than or equal the given value."""
+  la_liga_gte: String
+
+  """All values containing the given string."""
+  la_liga_contains: String
+
+  """All values not containing the given string."""
+  la_liga_not_contains: String
+
+  """All values starting with the given string."""
+  la_liga_starts_with: String
+
+  """All values not starting with the given string."""
+  la_liga_not_starts_with: String
+
+  """All values ending with the given string."""
+  la_liga_ends_with: String
+
+  """All values not ending with the given string."""
+  la_liga_not_ends_with: String
+  premier_league: String
+
+  """All values that are not equal to given value."""
+  premier_league_not: String
+
+  """All values that are contained in given list."""
+  premier_league_in: [String!]
+
+  """All values that are not contained in given list."""
+  premier_league_not_in: [String!]
+
+  """All values less than the given value."""
+  premier_league_lt: String
+
+  """All values less than or equal the given value."""
+  premier_league_lte: String
+
+  """All values greater than the given value."""
+  premier_league_gt: String
+
+  """All values greater than or equal the given value."""
+  premier_league_gte: String
+
+  """All values containing the given string."""
+  premier_league_contains: String
+
+  """All values not containing the given string."""
+  premier_league_not_contains: String
+
+  """All values starting with the given string."""
+  premier_league_starts_with: String
+
+  """All values not starting with the given string."""
+  premier_league_not_starts_with: String
+
+  """All values ending with the given string."""
+  premier_league_ends_with: String
+
+  """All values not ending with the given string."""
+  premier_league_not_ends_with: String
+  serie_a: String
+
+  """All values that are not equal to given value."""
+  serie_a_not: String
+
+  """All values that are contained in given list."""
+  serie_a_in: [String!]
+
+  """All values that are not contained in given list."""
+  serie_a_not_in: [String!]
+
+  """All values less than the given value."""
+  serie_a_lt: String
+
+  """All values less than or equal the given value."""
+  serie_a_lte: String
+
+  """All values greater than the given value."""
+  serie_a_gt: String
+
+  """All values greater than or equal the given value."""
+  serie_a_gte: String
+
+  """All values containing the given string."""
+  serie_a_contains: String
+
+  """All values not containing the given string."""
+  serie_a_not_contains: String
+
+  """All values starting with the given string."""
+  serie_a_starts_with: String
+
+  """All values not starting with the given string."""
+  serie_a_not_starts_with: String
+
+  """All values ending with the given string."""
+  serie_a_ends_with: String
+
+  """All values not ending with the given string."""
+  serie_a_not_ends_with: String
+  bundesliga: String
+
+  """All values that are not equal to given value."""
+  bundesliga_not: String
+
+  """All values that are contained in given list."""
+  bundesliga_in: [String!]
+
+  """All values that are not contained in given list."""
+  bundesliga_not_in: [String!]
+
+  """All values less than the given value."""
+  bundesliga_lt: String
+
+  """All values less than or equal the given value."""
+  bundesliga_lte: String
+
+  """All values greater than the given value."""
+  bundesliga_gt: String
+
+  """All values greater than or equal the given value."""
+  bundesliga_gte: String
+
+  """All values containing the given string."""
+  bundesliga_contains: String
+
+  """All values not containing the given string."""
+  bundesliga_not_contains: String
+
+  """All values starting with the given string."""
+  bundesliga_starts_with: String
+
+  """All values not starting with the given string."""
+  bundesliga_not_starts_with: String
+
+  """All values ending with the given string."""
+  bundesliga_ends_with: String
+
+  """All values not ending with the given string."""
+  bundesliga_not_ends_with: String
+  ligue_1: String
+
+  """All values that are not equal to given value."""
+  ligue_1_not: String
+
+  """All values that are contained in given list."""
+  ligue_1_in: [String!]
+
+  """All values that are not contained in given list."""
+  ligue_1_not_in: [String!]
+
+  """All values less than the given value."""
+  ligue_1_lt: String
+
+  """All values less than or equal the given value."""
+  ligue_1_lte: String
+
+  """All values greater than the given value."""
+  ligue_1_gt: String
+
+  """All values greater than or equal the given value."""
+  ligue_1_gte: String
+
+  """All values containing the given string."""
+  ligue_1_contains: String
+
+  """All values not containing the given string."""
+  ligue_1_not_contains: String
+
+  """All values starting with the given string."""
+  ligue_1_starts_with: String
+
+  """All values not starting with the given string."""
+  ligue_1_not_starts_with: String
+
+  """All values ending with the given string."""
+  ligue_1_ends_with: String
+
+  """All values not ending with the given string."""
+  ligue_1_not_ends_with: String
+  eurocup: String
+
+  """All values that are not equal to given value."""
+  eurocup_not: String
+
+  """All values that are contained in given list."""
+  eurocup_in: [String!]
+
+  """All values that are not contained in given list."""
+  eurocup_not_in: [String!]
+
+  """All values less than the given value."""
+  eurocup_lt: String
+
+  """All values less than or equal the given value."""
+  eurocup_lte: String
+
+  """All values greater than the given value."""
+  eurocup_gt: String
+
+  """All values greater than or equal the given value."""
+  eurocup_gte: String
+
+  """All values containing the given string."""
+  eurocup_contains: String
+
+  """All values not containing the given string."""
+  eurocup_not_contains: String
+
+  """All values starting with the given string."""
+  eurocup_starts_with: String
+
+  """All values not starting with the given string."""
+  eurocup_not_starts_with: String
+
+  """All values ending with the given string."""
+  eurocup_ends_with: String
+
+  """All values not ending with the given string."""
+  eurocup_not_ends_with: String
+  copa_america: String
+
+  """All values that are not equal to given value."""
+  copa_america_not: String
+
+  """All values that are contained in given list."""
+  copa_america_in: [String!]
+
+  """All values that are not contained in given list."""
+  copa_america_not_in: [String!]
+
+  """All values less than the given value."""
+  copa_america_lt: String
+
+  """All values less than or equal the given value."""
+  copa_america_lte: String
+
+  """All values greater than the given value."""
+  copa_america_gt: String
+
+  """All values greater than or equal the given value."""
+  copa_america_gte: String
+
+  """All values containing the given string."""
+  copa_america_contains: String
+
+  """All values not containing the given string."""
+  copa_america_not_contains: String
+
+  """All values starting with the given string."""
+  copa_america_starts_with: String
+
+  """All values not starting with the given string."""
+  copa_america_not_starts_with: String
+
+  """All values ending with the given string."""
+  copa_america_ends_with: String
+
+  """All values not ending with the given string."""
+  copa_america_not_ends_with: String
 }
 
 type PredictionSubscriptionPayload {
@@ -196,7 +625,19 @@ input PredictionUpdateInput {
   ligue_1: String
   eurocup: String
   copa_america: String
-  author: UserUpdateOneRequiredInput
+  author: UserUpdateOneRequiredWithoutPredictionsInput
+}
+
+input PredictionUpdateManyDataInput {
+  ballondor: String
+  champions_league: String
+  la_liga: String
+  premier_league: String
+  serie_a: String
+  bundesliga: String
+  ligue_1: String
+  eurocup: String
+  copa_america: String
 }
 
 input PredictionUpdateManyMutationInput {
@@ -209,6 +650,46 @@ input PredictionUpdateManyMutationInput {
   ligue_1: String
   eurocup: String
   copa_america: String
+}
+
+input PredictionUpdateManyWithoutAuthorInput {
+  create: [PredictionCreateWithoutAuthorInput!]
+  connect: [PredictionWhereUniqueInput!]
+  set: [PredictionWhereUniqueInput!]
+  disconnect: [PredictionWhereUniqueInput!]
+  delete: [PredictionWhereUniqueInput!]
+  update: [PredictionUpdateWithWhereUniqueWithoutAuthorInput!]
+  updateMany: [PredictionUpdateManyWithWhereNestedInput!]
+  deleteMany: [PredictionScalarWhereInput!]
+  upsert: [PredictionUpsertWithWhereUniqueWithoutAuthorInput!]
+}
+
+input PredictionUpdateManyWithWhereNestedInput {
+  where: PredictionScalarWhereInput!
+  data: PredictionUpdateManyDataInput!
+}
+
+input PredictionUpdateWithoutAuthorDataInput {
+  ballondor: String
+  champions_league: String
+  la_liga: String
+  premier_league: String
+  serie_a: String
+  bundesliga: String
+  ligue_1: String
+  eurocup: String
+  copa_america: String
+}
+
+input PredictionUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PredictionWhereUniqueInput!
+  data: PredictionUpdateWithoutAuthorDataInput!
+}
+
+input PredictionUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PredictionWhereUniqueInput!
+  update: PredictionUpdateWithoutAuthorDataInput!
+  create: PredictionCreateWithoutAuthorInput!
 }
 
 input PredictionWhereInput {
@@ -632,12 +1113,12 @@ enum PrismaDatabase {
 }
 
 type Query {
-  predictions(where: PredictionWhereInput, orderBy: PredictionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Prediction]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  prediction(where: PredictionWhereUniqueInput!): Prediction
+  predictions(where: PredictionWhereInput, orderBy: PredictionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Prediction]!
   user(where: UserWhereUniqueInput!): User
-  predictionsConnection(where: PredictionWhereInput, orderBy: PredictionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PredictionConnection!
+  prediction(where: PredictionWhereUniqueInput!): Prediction
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  predictionsConnection(where: PredictionWhereInput, orderBy: PredictionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PredictionConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -647,15 +1128,17 @@ type Query {
 }
 
 type Subscription {
-  prediction(where: PredictionSubscriptionWhereInput): PredictionSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  prediction(where: PredictionSubscriptionWhereInput): PredictionSubscriptionPayload
 }
 
 type User implements Node {
   id: ID!
   name: String!
+  password: String!
   email: String!
   age: Int
+  predictions(where: PredictionWhereInput, orderBy: PredictionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Prediction!]
 }
 
 """A connection to a list of items."""
@@ -671,13 +1154,23 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   name: String!
+  password: String!
   email: String!
   age: Int
+  predictions: PredictionCreateManyWithoutAuthorInput
 }
 
-input UserCreateOneInput {
-  create: UserCreateInput
+input UserCreateOneWithoutPredictionsInput {
+  create: UserCreateWithoutPredictionsInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutPredictionsInput {
+  id: ID
+  name: String!
+  password: String!
+  email: String!
+  age: Int
 }
 
 """An edge in a connection."""
@@ -694,6 +1187,8 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  password_ASC
+  password_DESC
   email_ASC
   email_DESC
   age_ASC
@@ -703,6 +1198,7 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   name: String!
+  password: String!
   email: String!
   age: Int
 }
@@ -744,34 +1240,38 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
-input UserUpdateDataInput {
-  name: String
-  email: String
-  age: Int
-}
-
 input UserUpdateInput {
   name: String
+  password: String
   email: String
   age: Int
+  predictions: PredictionUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
+  password: String
   email: String
   age: Int
 }
 
-input UserUpdateOneRequiredInput {
-  create: UserCreateInput
+input UserUpdateOneRequiredWithoutPredictionsInput {
+  create: UserCreateWithoutPredictionsInput
   connect: UserWhereUniqueInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
+  update: UserUpdateWithoutPredictionsDataInput
+  upsert: UserUpsertWithoutPredictionsInput
 }
 
-input UserUpsertNestedInput {
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
+input UserUpdateWithoutPredictionsDataInput {
+  name: String
+  password: String
+  email: String
+  age: Int
+}
+
+input UserUpsertWithoutPredictionsInput {
+  update: UserUpdateWithoutPredictionsDataInput!
+  create: UserCreateWithoutPredictionsInput!
 }
 
 input UserWhereInput {
@@ -863,6 +1363,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  password: String
+
+  """All values that are not equal to given value."""
+  password_not: String
+
+  """All values that are contained in given list."""
+  password_in: [String!]
+
+  """All values that are not contained in given list."""
+  password_not_in: [String!]
+
+  """All values less than the given value."""
+  password_lt: String
+
+  """All values less than or equal the given value."""
+  password_lte: String
+
+  """All values greater than the given value."""
+  password_gt: String
+
+  """All values greater than or equal the given value."""
+  password_gte: String
+
+  """All values containing the given string."""
+  password_contains: String
+
+  """All values not containing the given string."""
+  password_not_contains: String
+
+  """All values starting with the given string."""
+  password_starts_with: String
+
+  """All values not starting with the given string."""
+  password_not_starts_with: String
+
+  """All values ending with the given string."""
+  password_ends_with: String
+
+  """All values not ending with the given string."""
+  password_not_ends_with: String
   email: String
 
   """All values that are not equal to given value."""
@@ -925,6 +1465,9 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   age_gte: Int
+  predictions_every: PredictionWhereInput
+  predictions_some: PredictionWhereInput
+  predictions_none: PredictionWhereInput
 }
 
 input UserWhereUniqueInput {

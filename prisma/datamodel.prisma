@@ -1,6 +1,7 @@
 type User {
     id: ID! @id
     name: String!
+    password: String!
     email: String! @unique
     age: Int
     predictions: [Prediction!]! @relation(name: "PredictionToUser", onDelete: CASCADE, link: TABLE)
